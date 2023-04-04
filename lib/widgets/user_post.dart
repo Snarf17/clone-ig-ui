@@ -29,7 +29,7 @@ class UserPost extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      content.user,
+                      '${content.user} ',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                     )
@@ -111,7 +111,7 @@ class UserPost extends StatelessWidget {
                     ),
                     children: [
                   TextSpan(
-                      text: content.user,
+                      text: '${content.user} ',
                       style: const TextStyle(fontWeight: FontWeight.bold)),
                   TextSpan(
                       text: content.tags,

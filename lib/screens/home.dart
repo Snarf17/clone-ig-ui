@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
   ];
 
   final String dataUrl =
-      'https://pixabay.com/api/?key=35053945-44086013d2d6b722089aa19da&q=yellow+flowers&image_type=photo&pretty=true';
+      'https://pixabay.com/api/?key=35053945-44086013d2d6b722089aa19da&q=red+tech&image_type=photo&pretty=true';
   final dio = Dio();
 
   Future<List<Content>> getListContent() async {
