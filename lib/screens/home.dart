@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
       body: Column(
         children: [
           SizedBox(
-            height: 120,
+            height: 110,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
