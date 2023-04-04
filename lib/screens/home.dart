@@ -1,8 +1,8 @@
+import 'package:clone_ig/models/content_model.dart';
 import 'package:clone_ig/widgets/bubble_story.dart';
 import 'package:clone_ig/widgets/user_post.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -23,6 +23,33 @@ class _HomeState extends State<Home> {
     'test7',
     'test8',
   ];
+
+  final String dataUrl =
+      'https://pixabay.com/api/?key=35053945-44086013d2d6b722089aa19da&q=yellow+flowers&image_type=photo&pretty=true';
+  final dio = Dio();
+
+  Future<List<Content>> getListContent() async {
+    final response = await dio.get(dataUrl);
+    final dataModel =
+        ContentModel.fromJson(response.data as Map<String, dynamic>);
+    return dataModel.listContent;
+  }
+
+  List<Content> listContent = [];
+
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isLoading = true;
+    getListContent().then(((result) {
+      listContent = result;
+      _isLoading = false;
+      setState(() {});
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +92,12 @@ class _HomeState extends State<Home> {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return BubbleStory(name: name[index]);
+                return BubbleStory(
+                  name: name[index],
+                  isMe: index == 0 ? true : false,
+                  isLive: index == 1 ? true : false,
+                  isStory: index % 2 == 0 ? true : false,
+                );
               },
               itemCount: name.length,
             ),
@@ -74,7 +106,16 @@ class _HomeState extends State<Home> {
             height: 1,
             thickness: 0,
           ),
-          UserPost(name: 'robert')
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return UserPost(
+                  content: listContent[index],
+                );
+              },
+              itemCount: listContent.length,
+            ),
+          )
         ],
       ),
     );
